@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Registration Form</title>
+  <style>
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        background-color: #f0f0f0;
+      display: flex;
+         justify-content: center;
+        align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .register-box {
+        background-color: #fff;
+       padding: 28px;
+        border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+          width: 380px;
+      text-align: center;
+    }
+
+    .register-box h2 {
+        margin-bottom: 20px;
+      font-size: 1.75em;
+        color: #2c3e50;
+    }
+
+    .register-box input[type="text"],
+    .register-box input[type="password"],
+     .register-box input[type="email"] {
+      width: 95%;
+         padding: 10px;
+        margin-bottom: 14px;
+          border: 1px solid #ccc;
+           border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    .register-box button {
+      width: 100%;
+        padding: 12px;
+    background-color: #3498db;
+        color: #fff;
+        border: none;
+     border-radius: 4px;
+      font-size: 16px;
+    cursor: pointer;
+    }
+
+    .register-box button:hover {
+      background-color: #2980b9;
+    }
+
+    .message {
+      margin-top: 15px;
+    color: green;
+       font-weight: bold;
+     font-size: 14px;
+    }
+
+    .error {
+      margin-top: 10px;
+     color: darkred;
+          font-size: 13px;
+       font-weight: bold;
+    }
+
+    .login-link {
+      margin-top: 15px;
+         font-size: 0.9em;
+    }
+
+    .login-link a {
+    color: #3498db;
+      text-decoration: none;
+    }
+
+    .login-link a:hover {
+      text-decoration: underline;
+    } 
+  </style>
+</head>
+<body>
+
+<div class="register-box">
+  <h2>Create Your Account</h2>
+  <form id="registerForm">
+    <div>
+      <label for="username" style="display:block; text-align:left; margin-bottom:5px;">Username:</label>
+      <input type="text" id="username" name="username" required>
+    </div>
+    <div>
+      <label for="email" style="display:block; text-align:left; margin-bottom:5px;">Email:</label>
+      <input type="email" id="email" name="email" required>
+    </div>
+    <div>
+      <label for="password" style="display:block; text-align:left; margin-bottom:5px;">Password:</label>
+      <input type="password" id="password" name="password" required>
+    </div>
+    <div>
+      <label for="confirmPassword" style="display:block; text-align:left; margin-bottom:5px;">Confirm Password:</label>
+      <input type="password" id="confirmPassword" name="confirmPassword" required>
+    </div>
+    <button type="submit">Sign Up</button>
+  </form>
+  <div id="messageArea" class="message"></div>
+  <div id="errorArea" class="error"></div>
+  <div class="login-link">
+    Already have an account? <a href="login.html">Log in here</a>.
+  </div>
+</div>
+
+<script>
+  function setCookie(name, value, days) {
+    let expires = "";
+    if (days) {
+      let d = new Date();
+      d.setTime(d.getTime() + (days*24*60*60*1000));
+      expires = "; expires=" + d.toUTCString();
+    }
+    document.cookie = name + "=" + (JSON.stringify(value) || "") + expires + "; path=/";
+  }
+
+  function getCookie(name) {
+    let cname = name + "=";
+    let ca = document.cookie.split(';');
+    for (let i=0; i<ca.length; i++) {
+      let c = ca[i].trim();
+      if (c.indexOf(cname) === 0) {
+        return JSON.parse(c.substring(cname.length));
+      }
+    }
+    return null;
+  }
+
+  const form = document.getElementById('registerForm');
+    const msgArea = document.getElementById('messageArea');
+     const errArea = document.getElementById('errorArea');
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+           const uname = document.getElementById('username').value.trim();
+       const email = document.getElementById('email').value.trim();
+              const pwd = document.getElementById('password').value;
+    const confirmPwd = document.getElementById('confirmPassword').value;
+
+    msgArea.textContent = '';
+    errArea.textContent = '';
+
+    if (!uname || !email || !pwd || !confirmPwd) {
+      errArea.textContent = "you missed a spot. please fill all the fields";
+      return;
+    }
+
+    if (pwd !== confirmPwd) {
+      errArea.textContent = " your passwords don't match. Please try again.";
+      return;
+    }
+
+    let users = getCookie('registeredUsers') || {};
+
+    if (users[uname]) {
+      errArea.textContent = "Looks like that username is already taken. ";
+      return;
+    }
+
+    users[uname] = { email: email, password: pwd };
+    setCookie('registeredUsers', users, 7);
+
+    msgArea.textContent =  "your accont is all set!.";
+    form.reset();
+  });
+</script>
+
+</body>
+</html>
