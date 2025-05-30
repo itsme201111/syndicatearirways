@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title> Login Page</title>
+    <style>
+        body {
+              font-family: 'Arial', 'Helvetica', sans-serif;
+                       background-color: #efefef;
+                 display: flex;
+            justify-content: center;
+                    align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .login-container {
+            background-color: #ffffff;
+      padding: 30px;
+   border-radius: 10px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+            text-align: center;
+            width: 380px;
+        }
+        .login-container h2 {
+  margin-bottom: 22px;
+               color: #2c3e50;
+            font-size: 1.8em;
+        }
+        .login-container input[type="text"],
+          .login-container input[type="password"] {
+            width: calc(100% - 24px);
+               padding: 11px;
+            margin-bottom: 16px;
+         border: 1px solid #cccccc;
+            border-radius: 3px;
+            box-sizing: border-box;
+        }
+        .login-container button {
+            width: 100%;
+            padding: 11px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 16.5px;
+        }
+        .login-container button:hover {
+            background-color: #2980b9;
+        }
+        #messageArea {
+            margin-top: 16px;
+            color: #27ae60;
+            font-weight: bold;
+        }
+        #errorMessage {
+            color: #c0392b;
+            margin-top: 11px;
+        }
+        .register-link {
+            margin-top: 15px;
+            font-size: 0.9em;
+        }
+        .register-link a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <h2>Welcome Back!</h2>
+        <form id="loginForm">
+            <div>
+                <label for="username" style="display:block; text-align:left; margin-bottom:6px;">Username:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div>
+                <label for="password" style="display:block; text-align:left; margin-bottom:6px;">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit">Login Now!</button>
+        </form>
+             <div id="messageArea"></div>
+         <div id="errorMessage"></div>
+               <div class="register-link">
+            Need an account? <a href="register.html">Register here!</a>
+        </div>
+    </div>
+
+    <script>
+        function getCookie(name) {
+            const nameEQ = name + "=";
+            const ca = document.cookie.split(';');
+            for(let i=0; i < ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+            }
+            return null;
+        }
+
+        const loginForm = document.getElementById('loginForm');
+      const messageArea = document.getElementById('messageArea');
+             const errorMessage = document.getElementById('errorMessage');
+
+        loginForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const usernameInput = document.getElementById('username');
+             const passwordInput = document.getElementById('password');
+              const username = usernameInput.value;
+            const password = passwordInput.value;
+
+            messageArea.textContent = '';
+            errorMessage.textContent = '';
+
+            if (username === '' || password === '') {
+                errorMessage.textContent = "Whoops! Please fill in both fields to continue.";
+                return;
+            }
+
+            const storedUsersCookie = getCookie('registeredUsers');
+            const storedUsers = storedUsersCookie ? JSON.parse(storedUsersCookie) : {};
+            const user = storedUsers[username];
+
+            if (user && user.password === password) {
+                messageArea.textContent = 'Got it! Just a moment while we get things ready...';
+                
+                setTimeout(function() {
+                    window.location.href = 'book-a-flight.html';
+                }, 1200);
+            } else {
+                errorMessage.textContent = 'That combo doesn\'t seem to be in our system. Want to give it another shot?';
+                passwordInput.value = '';
+            }
+        });
+    </script>
+
+</body>
+</html>
