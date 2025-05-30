@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book A Flight &  Grub</title>
+    <style>
+
+        body {
+            font-family: 'Arial', 'Helvetica', sans-serif;
+            background-color: #f4f7f6;
+            display: flex;
+                flex-direction: column;
+              justify-content: center;
+            align-items: center;
+             minimum-height: 100vh;
+             margin: 0;
+                 padding: 20px;
+            box-sizing: border-box;
+        }
+
+
+        .booking-conatiner, .food-conatiner {
+            background-color: #ffffff;
+             padding: 30px;
+                border-radius: 10px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+            text-align: center;
+              width: 100%;
+              max-width: 500px;
+            margin-bottom: 20px;
+        }
+
+        .booking-conatiner h2, .food-conatiner h2 {
+            margin-bottom: 22px;
+            color : #2c3e50;
+            font-size: 1.8em ;
+        }
+
+
+        .form-group {
+            margin-bottom: 18px;
+            text-align: left;
+        }
+
+        .form-group label {
+             display: block;
+              margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .form-group select,
+        .form-group input[type="date"] {
+            width: calc(100% - 20px) ;
+             padding: 10px;
+              border: 1px solid #cccccc;
+             border-radius: 4px;
+            box-sizing: border-box;
+             font-size: 16px;
+        }
+
+        .action-button {
+            display: inline-block;
+            background-color: #3498db;
+               color: #ffffff;
+              padding: 12px 25px;
+            text-decoration: none;
+             border-radius: 5px;
+             font-size: 17px;
+                font-weight : 600;
+            transition: background-color 0.2s ease-in-out, transform 0.1s ease;
+             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-top: 20px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .action-button:hover {
+        background-color: #2980b9;
+            transform: translateY(-1px);
+        }
+        .action-button:active {
+            transform: translateY(0px);
+        }
+
+
+        #bookedFlightsDisplay {
+            margin-top: 30px;
+              width: 100%;
+            max-width: 500px;
+              background-color: #e8f5e9;
+            padding: 20px;
+           border-radius: 10px;
+              box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+        border: 1px solid #c8e6c9;
+            text-align: left;
+             display: none; 
+        }
+
+        #bookedFlightsDisplay h3 {
+             color: #2e7d32;
+              margin-top: 0;
+            margin-bottom: 15px;
+              font-size: 1.5em;
+        }
+
+
+        #bookedFlightsDisplay p {
+            margin-bottom: 8px;
+            font-size: 1.1em;
+            color: #4CAF50;
+        }
+        #bookedFlightsDisplay p strong {
+            color: #1b5e20;
+        }
+
+        .error-message {
+            color: #d32f2f;
+      margin-top: 10px;
+            font-size: 0.9em;
+              font-weight: bold;
+        }
+
+        .food-conatiner {
+     background-color : #fff8e1; 
+              padding: 20px;
+            border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-top: 20px;
+       width: 100%;
+            max-width: 500px;
+              text-align: left;
+            display: none; 
+        }
+
+        .food-conatiner h2 {
+                color: #e65100; 
+          margin-bottom: 15px;
+            font-size: 1.6em;
+        ext-align: center;
+        }
+         .food-conatiner p.intro {
+             color: #795548; 
+         text-align: center;
+            margin-bottom: 20px;
+         }
+        .menu-item {
+            margin-bottom: 12px;
+         padding: 10px;
+            border-bottom: 1px dashed #ffe0b2; 
+          display: flex; 
+            align-items: center; 
+        }
+
+
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+        .menu-item label {
+            margin-left: 10px;
+             color: #5d4037; 
+             font-weight: normal; 
+            flex-grow: 1; 
+        }
+        .menu-item input[type="checkbox"] {
+            transform: scale(1.3);
+              margin-right: 8px;
+            flex-shrink: 0; 
+        }
+         .menu-item .item-price {
+             color: #bf360c; 
+              font-weight: bold;
+            margin-left :10px; 
+        }
+
+
+        .food-total {
+             margin-top: 25px;
+            padding-top: 18px;
+              border-top: 2px solid #ffcc80; 
+            text-align: right;
+        }
+        .food-total h3 {
+            color: #c43e00;
+              font-size: 1.4em;
+            margin-bottom :10px;
+        }
+        #foodOrderSummary {
+              margin-top: 20px;
+              padding: 18px;
+             background-color: #f1f8e9; 
+             border: 1px solid #aed581; 
+            border-radius: 6px;
+        }
+
+          #foodOrderSummary h4 {
+            color: #33691e; 
+               margin-top: 0;
+            margin-bottom :10px;
+        }
+        #foodOrderSummary ul {
+              list-style-type: none;
+            padding-left: 0;
+             }
+        #foodOrderSummary li {
+               color: #558b2f; 
+              margin-bottom: 6px;
+          }
+
+        #confirmFoodButton { 
+            background-color: #ff9800; 
+            margin-top :10px; 
+        }
+        #confirmFoodButton:hover {
+            background-color: #f57c00;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="booking-conatiner">
+        <h2>Find  Your Fligh </h2>
+        <form id="bookFlightForm">
+            <div class="form-group">
+                <label for="departureCountry">Departing  From:</label>
+               <select id="departureCountry" name="departureCountry" required>
+                    <option value="">Select a  Country</option>
+                    <option value="USA">United States</option>
+                      <option value="CAN">Canada</option>
+                    <option value="GBR">United Kingdom</option>
+                      <option value="FRA">France</option>
+                    <option value="DEU">Germany</option>
+                         <option value="AUS">Australia</option>
+                    <option value="JPN">Japan</option>
+                    <option value="IND">India</option>
+                      <option value="BRA">Brazil</option>
+                        <option value="MEX">Mexico</option>
+                     <option value="ITA">Italy</soption> 
+                     <option value="ESP">Spain</option>
+                        <option value="CHN">China</option>
+                     <option value="ZAF">South Africa</option>
+                     <option value="NZL">New Zealand</option>
+                </select>
+            </div>
+
+
+            <div class="form-group">
+                <label for="arrivalCountry">Arriving  To:</label>
+                <select id="arrivalCountry" name="arrivalCountry" required>
+                    <option value="">Select  a Country</option>
+                      <option value="USA">United States</option>
+                      <option value="CAN">Canada</option>
+                    <option value="GBR">United Kingdom</option>
+                      <option value="FRA">France</option>
+                      <option value="DEU">Germany</option>
+                    <option value="AUS">Australia</option>
+                      <option value="JPN">Japan</option>
+                    <option value="IND">India</option>
+                      <option value="BRA">Brazil</option>   
+                    <option value="MEX">Mexico</option>
+                       <option value="ITA">Italy</soption> 
+                     <option value="ESP">Spain</option>
+                       <option value="CHN">China</option>
+                          <option value="ZAF">South Africa</option>
+                    <option value="NZL">New Zealand</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="travelDate">Select Your  Date:</label>
+                <input type="date" id="travelDate" name="travelDate" required>
+            </div>
+
+            <button type="submit" class="action-button">Book Flight</button>
+            <div id="formError" class="error-message"></div>
+        </form>
+    </div>
+
+    <div id="bookedFlightsDisplay">
+        <h3>Your Boo  ked Flight:</h3>
+        <p>Departing: <strong id="displayDeparture"></strong></p>
+        <p>Arriving: <strong id="displayArrival"></strong></p>
+        <p>On Date: <strong id="displayDate"></strong></p>
+        <p style="margin-top: 15px; font-weight: bold; color: #2e7d32;">Flight Booked! Have a great trip!</p>
+    </div>
+
+
+    <div id="foodPrebookContainer" class="food-conatiner"> 
+        <h2>Pre-book Yur  In-fligt Meal!</h2>
+        <p class="intro">Chose sum yummies for your trip (if ya want! ):</p>
+        <div id="foodMenu">
+            
+        </div>
+        <div class="food-total">
+            <h3>Your Food  Total: $<span id="foodTotalPrice">0.00</span></h3>
+        </div>
+        <button id="confirmFoodButton" class="action-button">Add These Eats to My Trip!</button>
+           <div id="foodOrderSummary" style="display: none;">
+            <h4>Grub  Confirmed! Here's what you got:</h4>
+     <ul id="selectedFoodList"></ul>
+            <p><strong>Final Food Total: $<span id="finalFoodTotal">0.00</span></strong></p>
+            <p>Yum! Your food is added. We'll have it ready for ya!</p>
+        </div>
+    </div>
+
+
+    <a href="index.html" class="action-button" style="background-color: #7f8c8d;">Back to  Home</a>
+
+    <script>
+        
+        const foodItems = [
+            { id: 'sandwich', name: 'Cheezy Peazy Sandwich' , price: 8.50 },
+             { id: 'wrap', name: 'Crispy Chiken Rap', price: 10.25 }, 
+              { id: 'salad', name: 'Veggie Delight Bowl', price: 7.00 },
+    { id: 'cake', name: 'Choclate Lava Dreem', price: 5.50 },
+            { id: 'ojuice', name: 'Freshly Squeezd Orang Juice', price: 3.75 },
+            { id: 'cola', name: 'Fizzy Cola Can' , price: 2.50 },
+            { id: 'water', name: 'Plane Ol Water', price: 1.00 } 
+        ];
+
+         const foodMenuDiv = document.getElementById('foodMenu');
+          const foodTotalPriceSpan = document.getElementById('foodTotalPrice');
+          const foodPrebookContainer = document.getElementById('foodPrebookContainer');
+           const confirmFoodButton = document.getElementById('confirmFoodButton');
+        const foodOrderSummaryDiv = document.getElementById('foodOrderSummary');
+          const selectedFoodListUl = document.getElementById('selectedFoodList');
+        const finalFoodTotalSpan = document.getElementById('finalFoodTotal');
+
+
+        function populateFoodMenu() {
+            foodMenuDiv.innerHTML = ''; 
+            foodItems.forEach(item => {
+                const menuItemDiv = document.createElement('div');
+                menuItemDiv.classList.add('menu-item');
+   
+                const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                checkbox.id = `food-${item.id}`;
+                   checkbox.dataset.price = item.price;
+                   checkbox.dataset.name = item.name; 
+                         checkbox.addEventListener('change', updateTotalFoodPrice);
+  
+                  const label = document.createElement('label');
+                  label.htmlFor = `food-${item.id}`;
+                   label.textContent = `${item.name}`;
+  
+                const priceSpan = document.createElement('span');
+                priceSpan.classList.add('item-price');
+                  priceSpan.textContent = `$${item.price.toFixed(2)}`;
+                   
+                menuItemDiv.appendChild(checkbox);
+                  menuItemDiv.appendChild(label);
+                menuItemDiv.appendChild(priceSpan);
+                foodMenuDiv.appendChild(menuItemDiv);
+            });
+        }
+
+        function updateTotalFoodPrice() {
+            let currentTotal  = 0;
+            const checkboxes = foodMenuDiv.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(cb => {
+                if (cb.checked)  {
+                    currentTotal += parseFloat(cb.dataset.price);
+                }
+            });
+            foodTotalPriceSpan.textContent = currentTotal.toFixed(2);
+        }
+        
+        document.getElementById('bookFlightForm').addEventListener('submit', function(event) {
+            event.preventDefault(); 
+
+            const departure = document.getElementById('departureCountry').value;
+                  const arrival = document.getElementById('arrivalCountry').value;
+            const date = document.getElementById('travelDate').value;
+            const errorDiv = document.getElementById('formError');
+            const bookedDisplay = document.getElementById('bookedFlightsDisplay');
+            
+
+            errorDiv.textContent = '';
+            bookedDisplay.style.display = 'none';
+            foodPrebookContainer.style.display = 'none'; 
+            foodOrderSummaryDiv.style.display = 'none'; 
+
+            if (departure === "" || arrival === "" || date === "") {
+                errorDiv.textContent = " Plese fill all fields to book your flight."; 
+                return;
+            }
+            
+            document.getElementById('displayDeparture').textContent = departure;
+            document.getElementById('displayArrival').textContent = arrival;
+            document.getElementById('displayDate').textContent = date;
+            
+            bookedDisplay.style.display = 'block'; 
+            
+            
+            populateFoodMenu(); 
+            updateTotalFoodPrice(); 
+            foodPrebookContainer.style.display = 'block'; 
+            confirmFoodButton.disabled = false; 
+            foodMenuDiv.style.display = 'block'; 
+
+            
+            
+        });
+
+
+        confirmFoodButton.addEventListener('click', function() {
+            selectedFoodListUl.innerHTML = ''; 
+            let finalTotal = 0;
+            const checkboxes = foodMenuDiv.querySelectorAll('input[type="checkbox"]');
+            let somethingSelected = false;
+
+            checkboxes.forEach(cb => {
+                if (cb.checked) {
+            somethingSelected = true;
+                    const itemName = cb.dataset.name;
+        const itemPrice = parseFloat(cb.dataset.price);
+                    
+               const listItem = document.createElement('li');
+              listItem.textContent = `${itemName} - $${itemPrice.toFixed(2)}`;
+                    selectedFoodListUl.appendChild(listItem);
+         
+                    finalTotal += itemPrice;
+                }
+            });
+
+            if (somethingSelected) {
+                finalFoodTotalSpan.textContent = finalTotal.toFixed(2);
+                foodOrderSummaryDiv.style.display = 'block';
+                
+                alert("Yummy choices! Your food is added to the trip.");
+            } else {
+                alert("No food selected! If ya change your mind, just check some boxes and hit the button again.");
+                foodOrderSummaryDiv.style.display = 'none';
+            }
+        });
+
+        
+
+    </script>
+
+</body>
+</html>
